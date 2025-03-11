@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Sprite
+  m_EditorClassIdentifier: 
+  m_GroupName: Sprite
+  m_Data:
+    m_SerializedData: []
+  m_GUID: a6c0ec6cafd569b4fa0002537b3acde5
+  m_SerializeEntries:
+  - m_GUID: 17803315d00b9a94ebeb0ce43817140e
+    m_Address: "\u7537\u5B50"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 389a87741b480e24b9c338b84d37a60d
+    m_Address: "\u73A9\u5BB6"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 50f5498b08e348f4c9ebb144572d5a98
+    m_Address: Slider
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8e10d539b9e8e4d43ad88c38c871d3c5
+    m_Address: "\u56FE4"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e10438c6f9f803143aa36ea4a79a305c
+    m_Address: "\u8BE1\u5F02"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3df500a3467d0cc4db05e9b3a23442de
+    m_Address: background
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b79a7fb1b055c4e48b3114a71fee5672
+    m_Address: Mat_SpriteFrame_01A
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b7f39dcd1f4be2e43a18fe9a8a100899
+    m_Address: "\u56FE1"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 20188b2ae9a96c5468679ae2cc65c111
+    m_Address: "\u56FE3"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b27f4aac67669714781e55b5441b30fb
+    m_Address: "\u56FE2"
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 447d9282c139b5e428703ccccb11d074, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 80586b404cb16bf44b82538743c09ae9, type: 2}
+    - {fileID: 11400000, guid: d62e1e42176b74e41ad41948ebb19b3a, type: 2}
