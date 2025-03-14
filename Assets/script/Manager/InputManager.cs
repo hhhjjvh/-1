@@ -51,16 +51,21 @@ public class InputManager : MonoBehaviour
     void OnEnable()
     {
         playerInput.Enable();
-        LoadBindings();      
+        LoadBindings();
+        playerInput.Player.Interach.started += OnInteractStarted;
+        playerInput.Player.Interach.canceled += OnInteractCanceled;
+        
     }
 
   
     void OnDisable()
     {
         playerInput.Disable();
-     
+     playerInput.Player.Interach.started -= OnInteractStarted;
+     playerInput.Player.Interach.canceled -= OnInteractCanceled;
     }
-
+    private void OnInteractStarted(InputAction.CallbackContext context) => canInteract = true;
+    private void OnInteractCanceled(InputAction.CallbackContext context) => canInteract = false;
     public void RestInput()
     {     
         LoadBindings();     

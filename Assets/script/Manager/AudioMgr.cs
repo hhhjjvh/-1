@@ -54,6 +54,7 @@ public class AudioMgr : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            transform.SetParent(null); // Çå³ý¸¸¶ÔÏó
             DontDestroyOnLoad(gameObject);
             InitializeAudioSources();
             InitializeSFXPool();

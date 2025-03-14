@@ -141,6 +141,7 @@ public class TimeManager : MonoBehaviour,ISaveManager
             return;
         }
         Instance = this;
+        transform.SetParent(null); // Çå³ý¸¸¶ÔÏó
         DontDestroyOnLoad(gameObject);
         InitializeTimeSystem();
        

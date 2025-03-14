@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TeleporPoint : MonoBehaviour, IInteractable
 {
-    public SceneLoadEventSO loadEventSo;
+    [SerializeField] private SceneLoadEventSO loadEventSo;
     public GameSceneSO GameScenceSo;
     public Vector2 TeleportPosition;
     public GameObject Name;
@@ -17,7 +17,7 @@ public class TeleporPoint : MonoBehaviour, IInteractable
 
     public void TiggerAction()
     {
-        loadEventSo.OnSceneLoad(GameScenceSo, TeleportPosition, true);
+       SceneLoadManagers.Instance.sceneLoadEvent.OnSceneLoad(GameScenceSo, TeleportPosition, true);
     }
 
     void Start()
@@ -26,11 +26,6 @@ public class TeleporPoint : MonoBehaviour, IInteractable
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))

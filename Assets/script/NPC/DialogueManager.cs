@@ -15,7 +15,7 @@ public class DialogueManager : MonoBehaviour
     public static DialogueManager Instance;
     [Header("UI Components")]
     public GameObject dialogueBox;
-    public TextMeshProUGUI dialogueText, nameTextl, nameTextr;
+    public TextMeshProUGUI dialogueText, nameTextl, nameTextr, descriptionText;
     public Image characterImagel, characterImager, backgroundImage;
     private enum State { Inactive, Scrolling, Choosing }
     private State currentState;
@@ -34,6 +34,14 @@ public class DialogueManager : MonoBehaviour
     public GameObject choicePanel;
     // public GameObject choiceButtonPrefab;
     private List<GameObject> currentChoices = new List<GameObject>();
+    // 新增UI组件
+    [Header("Title Settings")]
+    public TextMeshProUGUI titleText;
+    public float titleFontSize = 36f;
+    public float titleDisplayTime = 2f;
+
+    private float originalFontSize; // 存储原始字体大小
+
     private void Awake()
     {
         if (Instance == null)
@@ -51,6 +59,8 @@ public class DialogueManager : MonoBehaviour
         }
         dialogueBox.SetActive(false);
         choicePanel.SetActive(false);
+        originalFontSize = dialogueText.fontSize;
+        titleText.gameObject.SetActive(false);
     }
     // Start is called before the first frame update
     void Start()
@@ -107,19 +117,18 @@ public class DialogueManager : MonoBehaviour
                     }
                 }
                 else
-
                 {
-                    string text = splitDialogueLines[currentLine];
-                    if (text.Contains("@cg="))
+                    string content = splitDialogueLines[currentLine];
+                    var matches = Regex.Matches(content, @"(@[^ ]+)");
+                    foreach (Match match in matches)
                     {
-                        var match = Regex.Match(text, @"@cg=([^,]+),?([\d.]*)");
-                        if (match.Success)
-                        {
-                            text = Regex.Replace(text, @"@cg=([^,]+),?([\d.]*)", "");
-                        }            
+                        string fullTag = match.Groups[1].Value;
+                        content = content.Replace(fullTag, "");
+                    
                     }
-                    //StopAllCoroutines();
-                    dialogueText.text = text;
+                   
+                    dialogueText.text = content;
+                    descriptionText.text = dialogueText.text;
                     isScrolling = false;
                 }
 
@@ -137,6 +146,8 @@ public class DialogueManager : MonoBehaviour
 
         currentLine = 0;
         dialogueBox.SetActive(true);
+        descriptionText.gameObject.SetActive(false);
+        descriptionText.text = "";
         currentState = State.Scrolling;
 
         currentDialogue.ResetProgress();
@@ -181,11 +192,15 @@ public class DialogueManager : MonoBehaviour
         if (splitDialogueLines[currentLine].StartsWith("n-"))
         {
             backgroundImage.gameObject.SetActive(true);
+            dialogueText.gameObject.SetActive(true);
+            descriptionText.gameObject.SetActive(false);
             if (splitDialogueLines[currentLine].StartsWith("n-n"))
             {
                 characterImagel.gameObject.SetActive(false);
                 characterImager.gameObject.SetActive(false);
                 backgroundImage.gameObject.SetActive(false);
+                dialogueText.gameObject.SetActive(false);
+                descriptionText.gameObject.SetActive(true);
             }
             else if (splitDialogueLines[currentLine].StartsWith("n-r"))
             {
@@ -452,36 +467,140 @@ public class DialogueManager : MonoBehaviour
         dialogueText.text = "";
         isScrolling = true;
 
-        // 检测CG触发标识
-        if (content.Contains("@cg="))
+        // 提取并处理所有特殊指令
+        var commands = new List<IEnumerator>();
+        content = ProcessSpecialCommands(content, ref commands);
+
+        // 按顺序执行所有指令
+        foreach (var cmd in commands)
         {
-            // 使用正则表达式匹配标识（格式：@cg=CG名称,等待时间）
-            var match = Regex.Match(content, @"@cg=([^,]+),?([\d.]*)");
-            if (match.Success)
-            {
-                string cgName = match.Groups[1].Value.Trim();
-                string timeStr = match.Groups[2].Value;
-
-                // 解析等待时间（若未设置则默认0.1秒）
-                float waitTime = 0.1f;
-                if (!string.IsNullOrEmpty(timeStr))
-                    float.TryParse(timeStr, out waitTime);
-
-                bool isCGDone = false;
-                CGManager.Instance.ShowCGWithFade(cgName, waitTime, () => isCGDone = true);
-                yield return new WaitUntil(() => isCGDone);
-
-                // 移除标识（支持带/不带时间的格式）
-                content = Regex.Replace(content, @"@cg=([^,]+),?([\d.]*)", "");
-                //splitDialogueLines[currentLine] = content;
-            }
+            yield return StartCoroutine(cmd);
         }
 
         while (dialogueText.text.Length < content.Length && isScrolling)
         {
             dialogueText.text += content[dialogueText.text.Length];
+            descriptionText.text = dialogueText.text;
             yield return new WaitForSeconds(scrollSpeed);
         }
         isScrolling = false;
     }
+    private string ProcessSpecialCommands(string content, ref List<IEnumerator> commands)
+    {
+        // 使用正则匹配所有指令
+        var matches = Regex.Matches(content, @"(@[^ ]+)");
+        foreach (Match match in matches)
+        {
+            string fullTag = match.Groups[1].Value;
+
+            // 处理CG指令
+            if (fullTag.StartsWith("@cg="))
+            {
+                var cmd = HandleCGCommand(fullTag);
+                if (cmd != null) commands.Add(cmd);
+                content = content.Replace(fullTag, "");
+            }
+            // 处理等待指令
+            else if (fullTag.StartsWith("@wait="))
+            {
+                commands.Add(HandleWaitCommand(fullTag));
+                content = content.Replace(fullTag, "");
+            }
+            // 处理音乐指令
+            else if (fullTag.StartsWith("@music="))
+            {
+                commands.Add(HandleMusicCommand(fullTag));
+                content = content.Replace(fullTag, "");
+            }
+            else if (fullTag.StartsWith("@title="))
+            {
+                commands.Add(HandleTitleCommand(fullTag));
+                content = content.Replace(fullTag, "");
+            }
+        }
+
+        return content.Trim();
+    }
+
+    #region 异步指令处理
+    private IEnumerator HandleCGCommand(string tag)
+    {
+        var match = Regex.Match(tag, @"@cg=([^,]+),?([\d.]*)");
+        if (!match.Success) yield break;
+
+        string cgName = match.Groups[1].Value.Trim();
+        float fadeTime = 0.1f;
+        if (!string.IsNullOrEmpty(match.Groups[2].Value))
+            float.TryParse(match.Groups[2].Value, out fadeTime);
+
+        bool isDone = false;
+        CGManager.Instance.ShowCGWithFade(cgName, fadeTime, () => isDone = true);
+        yield return new WaitUntil(() => isDone);
+    }
+
+    private IEnumerator HandleWaitCommand(string tag)
+    {
+        var match = Regex.Match(tag, @"@wait=([\d.]+)");
+        if (!match.Success) yield break;
+
+        if (float.TryParse(match.Groups[1].Value, out float waitTime))
+        {
+            yield return new WaitForSeconds(waitTime); // 正确使用协程等待
+        }
+    }
+
+    private IEnumerator HandleMusicCommand(string tag)
+    {
+        var match = Regex.Match(tag, @"@music=([\w]+)");
+        if (!match.Success) yield break;
+
+        string musicName = match.Groups[1].Value;
+        if (!string.IsNullOrEmpty(musicName))
+        {
+            AudioMgr.Instance.PlaySFX(musicName); // 立即播放音乐
+        }
+        yield return null; // 无需等待音乐播放完成
+    }
+    private IEnumerator HandleTitleCommand(string tag)
+    {
+        var match = Regex.Match(tag, @"@title=([^,]+),?([\d.]*)");
+        if (!match.Success) yield break;
+
+        string titleContent = match.Groups[1].Value;
+        float displayTime = titleDisplayTime;
+
+        // 解析可选的时间参数
+        if (!string.IsNullOrEmpty(match.Groups[2].Value))
+            float.TryParse(match.Groups[2].Value, out displayTime);
+
+        // 显示标题
+        titleText.text = titleContent;
+        titleText.fontSize = titleFontSize;
+        titleText.gameObject.SetActive(true);
+        dialogueText.gameObject.SetActive(false);
+       descriptionText.gameObject.SetActive(false);
+
+        // 暂停对话滚动
+        bool originalScrollingState = isScrolling;
+        isScrolling = false;
+        StartCoroutine(FadeTitle(0f, 1f, 1f)); // 淡入
+        yield return new WaitForSeconds(displayTime);
+        StartCoroutine(FadeTitle(1f, 0f, 1f)); // 淡出
+       
+        // 恢复对话滚动
+        isScrolling = originalScrollingState;
+        titleText.gameObject.SetActive(false);
+       
+    }
+    private IEnumerator FadeTitle(float from, float to, float duration)
+    {
+        float elapsed = 0;
+        while (elapsed < duration)
+        {
+            titleText.alpha = Mathf.Lerp(from, to, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+    }
+    #endregion
 }

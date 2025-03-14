@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e6d09cf671b3a745b7a3a12ca99b61d, type: 3}
-  m_Name: ScenceLoadEventSo
+  m_Name: SceneLoadEventSo
   m_EditorClassIdentifier: 

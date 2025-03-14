@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 605fd6f0effa6f24481dc2eb94d1132f, type: 3}
+  m_Name: "\u5403\u996D"
+  m_EditorClassIdentifier: 
+  systemType: 0
+  nodes: []
+  dialogueData: "n-n\u65E0/n\n\u6253\u5F00\u51B0\u7BB1\uFF0C\u6CA1\u6709\u98DF\u7269\uFF0C\u6253\u5F00\u6A71\u67DC\uFF0C\u627E\u5230\u4E00\u5305\u6CE1\u9762\uFF0C\u6025\u5306\u5306\u5403\u5B8C\u4E86\u6CE1\u9762@cg=background,2/n\n\u770B\u4E86\u4E0B\u65F6\u95F4\uFF0C\u5DF2\u7ECF8\u70B9\u534A\u4E86\uFF0C\u6536\u62FE\u4E86\u4E00\u4E0B\uFF0C\u6293\u7D27\u65F6\u95F4\u51FA\u95E8\u4E86\u3002/n\n@title=\u7B2C\u4E00\u7AE0:\u8DEF,2.5/n\r\n\u6211\u8D70\u554A\u8D70\uFF0C\u5374\u600E\u4E48\u4E5F\u8D70\u4E0D\u5230\u5934"
+  cachedLines:
+  - "n-n\u65E0"
+  - "\u6253\u5F00\u51B0\u7BB1\uFF0C\u6CA1\u6709\u98DF\u7269\uFF0C\u6253\u5F00\u6A71\u67DC\uFF0C\u627E\u5230\u4E00\u5305\u6CE1\u9762\uFF0C\u6025\u5306\u5306\u5403\u5B8C\u4E86\u6CE1\u9762@cg=background,2"
+  - "\u770B\u4E86\u4E0B\u65F6\u95F4\uFF0C\u5DF2\u7ECF8\u70B9\u534A\u4E86\uFF0C\u6536\u62FE\u4E86\u4E00\u4E0B\uFF0C\u6293\u7D27\u65F6\u95F4\u51FA\u95E8\u4E86\u3002"
+  - "@title=\u7B2C\u4E00\u7AE0:\u8DEF,2.5"
+  - "\u6211\u8D70\u554A\u8D70\uFF0C\u5374\u600E\u4E48\u4E5F\u8D70\u4E0D\u5230\u5934"
+  events: []
+  hasName: 0
+  EndscriptableEffects: []

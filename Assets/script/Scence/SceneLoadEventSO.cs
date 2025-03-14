@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-[CreateAssetMenu(fileName = "ScenceLoadEventSo", menuName = "Event/ScenceLoadEventSo")]
+[CreateAssetMenu(fileName = "SceneLoadEventSo", menuName = "Event/SceneLoadEventSo")]
 public class SceneLoadEventSO : ScriptableObject
 {
     public UnityAction<GameSceneSO,Vector3,bool> OnSceneLoad;
 
-    public void Invoke(GameSceneSO gameScenceSo, Vector3 pos, bool isLoad)
+    public void LoadEvent(GameSceneSO gameScenceSo, Vector3 pos, bool isLoad)
     {
         OnSceneLoad?.Invoke(gameScenceSo, pos, isLoad);
+     //   Debug.Log("LoadEvent");
     }
 }
