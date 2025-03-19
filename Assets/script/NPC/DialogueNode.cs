@@ -18,7 +18,8 @@ public class DialogueNode : ScriptableObject
 #if UNITY_EDITOR
     void OnValidate()
     {
-        content = contentData.Split(new[] { "/n" }, StringSplitOptions.RemoveEmptyEntries)
+        //"/n"
+        content = contentData.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries)
                       .Select(line => line.Trim()).ToArray();
         triggerLine = -1;
         for (int i = 0; i < content.Length; i++)

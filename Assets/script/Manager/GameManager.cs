@@ -1,30 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 
 public class GameManager : MonoBehaviour, ISaveManager
 {
-    public static GameManager instance;
+    public static GameManager Instance;
     public AssetReference currentScenceSo;
     public AssetReference firstScenceSo;
     [SerializeField] private CheckPoint[] checkPoints;
     private CheckPoint[] LoadcheckPoints;
     [SerializeField] private string closestCheckPointLoad;
     GameData data;
+  
     private void Awake()
     {
 
-        if (instance != null)
+        if (Instance != null)
         {
-            Destroy(instance.gameObject);
+            Destroy(Instance.gameObject);
         }
-        instance = this;
+        Instance = this;
         checkPoints = FindObjectsByType<CheckPoint>(FindObjectsSortMode.None);
     
     }
- 
+   
+
     public void RestartScence()
     {
        

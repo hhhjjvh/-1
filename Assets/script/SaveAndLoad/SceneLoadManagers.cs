@@ -180,14 +180,14 @@ public class SceneLoadManagers : MonoBehaviour, ISaveManager
 
     public void LoadData(GameData data)
     {
-      //  currentActiveScene = data?.LoadGameScene() ?? firstLoadScene;
+        currentActiveScene = data?.LoadGameScene() ?? firstLoadScene;
     }
 
     public void SaveData(ref GameData data)
     {
         if (currentActiveScene != null)
         {
-           // data.SaveGameScene(currentActiveScene);
+            data.SaveGameScene(currentActiveScene);
         }
     }
 

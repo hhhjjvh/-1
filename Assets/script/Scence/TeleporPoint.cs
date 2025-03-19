@@ -17,7 +17,7 @@ public class TeleporPoint : MonoBehaviour, IInteractable
 
     public void TiggerAction()
     {
-       SceneLoadManagers.Instance.sceneLoadEvent.OnSceneLoad(GameScenceSo, TeleportPosition, true);
+       SceneLoadManager.Instance.sceneLoadEvent.OnSceneLoad(GameScenceSo, TeleportPosition, true);
     }
 
     void Start()

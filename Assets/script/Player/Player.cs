@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Player :Entity
 {
+    public ItemData item;
     [Header("Move info")]
     public float moveSpeed=8;
     public float jumpForce;
@@ -18,7 +20,7 @@ public class Player :Entity
         stateMachine = new PlayerStateMachine();
 
         idleState = new PlayerIdleState(stateMachine, this, "Idle");
-        moveState = new PlayerMoveState(stateMachine, this, "Move");
+        moveState = new PlayerMoveState(stateMachine, this, "Run");
         runState = new PlayerRunState(stateMachine, this, "Run");
     }
     protected override void Start()
@@ -36,5 +38,14 @@ public class Player :Entity
 
         base.Update();
         stateMachine.currentState.Update();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            bool canPicked = Inventory.Instance.AddItem(item, 1);
+            if (canPicked)
+            { // 可被拾取时启动销毁协程
+                TipsBoxManager.Instance.ShowTipsBox("拾取物品：" + item.itemName, 1f);
+
+            }
+        }
     }
 }

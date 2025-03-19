@@ -55,7 +55,7 @@ public class CheckPoint : MonoBehaviour,IInteractable
     public void TiggerAction()
     {
         ActivateCheckPoint();
-        SaveManager.instance.SaveGame();
+        SaveManager.Instance.SaveGame();
     }
 
     public bool IsInteractable()

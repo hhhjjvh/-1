@@ -9,7 +9,7 @@ using System.IO;
 public class SaveManager : MonoBehaviour
 {
     private GameData data;
-    public static SaveManager instance;
+    public static SaveManager Instance;
 
     private string saveFileNameTemplate = "save_slot{0}.json"; // 文件名模板
     [SerializeField] private bool encryptData;
@@ -36,11 +36,11 @@ public class SaveManager : MonoBehaviour
     private void Awake()
     {
        // DeleteSavedData();
-        if (instance != null)
+        if (Instance != null)
         {
-            Destroy(instance.gameObject);
+            Destroy(Instance.gameObject);
         }
-        instance = this;
+        Instance = this;
         //DontDestroyOnLoad(gameObject);
         //当前相对位置
         //fileDataHandler = new FileDataHandler(Application.dataPath, saveFileName);
@@ -81,6 +81,7 @@ public class SaveManager : MonoBehaviour
     }
     public void SaveGame()
     {
+        Debug.Log("SaveGame");
         int selectedSlo = PlayerPrefs.GetInt("SelectedSaveSlot", -1);
        // Debug.Log("selectedSlotIndex" + selectedSlo);
         if (selectedSlo != -1)
@@ -90,10 +91,12 @@ public class SaveManager : MonoBehaviour
         else
         {
             SaveGame(1);
+            PlayerPrefs.SetInt("SelectedSaveSlot", 1);
         }
     }
     public void LoadGame(int slotIndex)
     {
+
         string fileName = string.Format(saveFileNameTemplate, slotIndex);
         FileDataHandler fileDataHandler = new FileDataHandler(
             Application.persistentDataPath,
@@ -115,6 +118,7 @@ public class SaveManager : MonoBehaviour
     }
     public void LoadGame()
     {
+        Debug.Log("LoadGame");
         int selectedSlo = PlayerPrefs.GetInt("SelectedSaveSlot", -1);
      //  Debug.Log("selectedSlotIndex" + selectedSlo);
         if (selectedSlo != -1)

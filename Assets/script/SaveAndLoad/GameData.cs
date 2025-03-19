@@ -8,10 +8,6 @@ public class GameData
     public int currency;
     public int coin;
 
-    public int experience;
-    public int needExperience;
-    public int level;
-
     public string saveTime ="";
     public float _totalPlaytimeSeconds;
 
@@ -22,12 +18,9 @@ public class GameData
 
     // 条件进度（Key格式：TaskID_ConditionGUID）
     public SerializableDictionary<string, int> conditionProgress = new();
-    //public SerializableDictionary<string, int,int> inventory;
-    public SerializableDictionary<string, int> inventory;
-    public SerializableDictionary<string, int> inventorySlot;
-    public SerializableDictionary<string, bool> skillTree;
-
-    public List<string> equipmentID;
+   
+    public Dictionary<int, string> slotDict; // 物品槽所含物品
+    public Dictionary<string, int> itemsDict;  // 玩家背包数据
 
     public SerializableDictionary<string, bool> checkPoints;
     public string closestCheckPoint;
@@ -42,19 +35,16 @@ public class GameData
     {
         currency = 0;
         coin = 0;
-        experience = 0;
-        needExperience = 0;
-        level = 1;
+        
         saveTime = System.DateTime.Now.ToString();
         _totalPlaytimeSeconds= 0;
         position = Vector3.zero;
         taskStatuses = new SerializableDictionary<string, TaskSO.TaskStatus>();
         conditionProgress = new SerializableDictionary<string, int>();
-     
-    inventory = new SerializableDictionary<string, int>();
-        inventorySlot = new SerializableDictionary<string, int>();
-        skillTree = new SerializableDictionary<string, bool>();
-        equipmentID = new List<string>();
+
+        slotDict = new Dictionary<int, string>();
+        itemsDict = new Dictionary<string, int>();
+   
         checkPoints = new SerializableDictionary<string, bool>();
         closestCheckPoint = string.Empty;
         volumeSetting = new SerializableDictionary<string, float>();

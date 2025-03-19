@@ -8,12 +8,12 @@ using System.Linq;
 
 public class SceneLoadManager : MonoBehaviour, ISaveManager
 {
-    public static SceneLoadManager instance;
+    public static SceneLoadManager Instance;
     public GameSceneSO firstLoadScene;
     public UIFadeScreen fadeScreen;
     public GameObject fade;
 
-    public SceneLoadEventSO eventSo;
+    public SceneLoadEventSO sceneLoadEvent;
 
     [SerializeField] private GameSceneSO currentSceneSo;
     private GameSceneSO ScenceToLoad;
@@ -23,9 +23,9 @@ public class SceneLoadManager : MonoBehaviour, ISaveManager
 
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
             transform.SetParent(null); // 清除父对象
             DontDestroyOnLoad(gameObject);
         }
@@ -33,16 +33,23 @@ public class SceneLoadManager : MonoBehaviour, ISaveManager
         {
             Destroy(gameObject);
         }
-
+        fade.SetActive(true);
     }
    
     private void Start()
     {
-        StartCoroutine(InitializeAddressables());
+        //  StartCoroutine(InitializeAddressables());
+        if (currentSceneSo == null)
+        {
+            currentSceneSo = firstLoadScene;
+        }
+
+        StartCoroutine(UnLoadStartScene());
     }
 
     IEnumerator InitializeAddressables()
     {
+        fade.SetActive(true);
         // 初始化 Addressables（如果未自动初始化）
         var initHandle = Addressables.InitializeAsync();
         yield return initHandle;
@@ -59,17 +66,17 @@ public class SceneLoadManager : MonoBehaviour, ISaveManager
         {
             currentSceneSo = firstLoadScene;
         }
-        fadeScreen.FadeOut();
+        
         StartCoroutine(UnLoadStartScene());
     }
     private void OnEnable()
     {
-        eventSo.OnSceneLoad += OnScenceLoad;
+        sceneLoadEvent.OnSceneLoad += OnScenceLoad;
        // Debug.Log("OnEnable");
     }
     private void OnDisable()
     {
-        eventSo.OnSceneLoad -= OnScenceLoad;
+        sceneLoadEvent.OnSceneLoad -= OnScenceLoad;
     }
     public GameSceneSO GetFirstLoadScence()
     {
@@ -153,7 +160,7 @@ public class SceneLoadManager : MonoBehaviour, ISaveManager
 
     public void SaveData(ref GameData data)
     {
-        if (currentSceneSo == null || instance == null) return;
+        if (currentSceneSo == null || Instance == null) return;
         data.SaveGameScene(currentSceneSo);
     }
     IEnumerator SetCameraBounds()

@@ -18,7 +18,7 @@ public class EntityFX : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        afterImageTimer -= Time.deltaTime;
     }
     public void CreatAfterImage()
     {
@@ -28,6 +28,7 @@ public class EntityFX : MonoBehaviour
             GameObject afterImage = PoolMgr.Instance.GetObj("AfterImage", transform.
                 GetComponent<Entity>().anim.transform.position, transform.rotation);
             afterImage.GetComponent<AfterImageFX>().SetupAfterImage(colorLooseRate, spriteRenderer.sprite);
+         //   Debug.Log("create after image");
         }
     }
 }

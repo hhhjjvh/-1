@@ -27,13 +27,15 @@ public class PlayerState
 
     public virtual void Enter()
     {
-        player.anim.SetBool(animBoolName, true);
+       // player.anim.SetBool(animBoolName, true);
+       player.anim.Play(animBoolName);
         rb = player.rb;
         triggerCalled = false;
     }
     public virtual void Exit()
     {
-        player.anim.SetBool(animBoolName, false);
+       // player.anim.SetBool(animBoolName, false);
+
     }
     public virtual void Update()
     {

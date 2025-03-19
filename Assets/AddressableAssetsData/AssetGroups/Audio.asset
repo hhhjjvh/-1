@@ -17,11 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 257795b2143480d4983d43bb700398cb
   m_SerializeEntries:
-  - m_GUID: af1e00a290d29044390cb9248fa5540a
-    m_Address: Gentle_Morning_Glow
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c698098c82590de4abd44c67789f7ec1
     m_Address: In_the_Whispering_Moonlight
     m_ReadOnly: 0
@@ -34,6 +29,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5634815b9da31cc4a86eeb4734a2ee79
     m_Address: sfx_death_screen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: af1e00a290d29044390cb9248fa5540a
+    m_Address: Gentle_Morning_Glow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 61c1aad15e445d145b5c5d8136e35e81
+    m_Address: 3455_get1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

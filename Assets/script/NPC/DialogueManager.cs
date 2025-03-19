@@ -476,13 +476,23 @@ public class DialogueManager : MonoBehaviour
         {
             yield return StartCoroutine(cmd);
         }
-
-        while (dialogueText.text.Length < content.Length && isScrolling)
+        if (currentDialogue.useTypewriterEffect)
         {
-            dialogueText.text += content[dialogueText.text.Length];
-            descriptionText.text = dialogueText.text;
-            yield return new WaitForSeconds(scrollSpeed);
+            // 逐字滚动
+            while (dialogueText.text.Length < content.Length && isScrolling)
+            {
+                dialogueText.text += content[dialogueText.text.Length];
+                descriptionText.text = dialogueText.text;
+                yield return new WaitForSeconds(scrollSpeed);
+            }
         }
+        else
+        {
+            // 直接显示全文
+            dialogueText.text = content;
+            descriptionText.text = content;
+        }
+       
         isScrolling = false;
     }
     private string ProcessSpecialCommands(string content, ref List<IEnumerator> commands)

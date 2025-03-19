@@ -14,6 +14,9 @@ public class AudioMgr : MonoBehaviour
 {
     public static AudioMgr Instance { get; private set; }
 
+    public const string AudioBGMpath = "Assets/Audio/BGM/";
+    public const string AudioSFXpath = "Assets/Audio/SFX/";
+
     [Header("Mixer Settings")]
     [SerializeField] private AudioMixer _audioMixer;
     [SerializeField] private string _masterVolumeParam = "MasterVolume";
