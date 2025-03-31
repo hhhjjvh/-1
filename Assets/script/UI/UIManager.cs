@@ -31,6 +31,7 @@ public class UIManager
                 if (GameObject.Find("Canvas"))
                 {
                     _uiRoot = GameObject.Find("Canvas").transform; // 此处直接以Canvas为根节点，复杂的项目视情况而定
+                    
                 }
                 else
                 {

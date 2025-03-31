@@ -26,7 +26,7 @@ public class SlotController : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     }
     private void Update()
     {
-     //   GetItem(); // 持续获取当前槽内物品信息
+        GetItem(); // 持续获取当前槽内物品信息
     }
 
     public GameObject item

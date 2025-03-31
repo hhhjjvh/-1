@@ -46,7 +46,10 @@ public class SaveManager : MonoBehaviour
         //fileDataHandler = new FileDataHandler(Application.dataPath, saveFileName);
 
         saveManagers = FindAllSaveManagers();
-       LoadGame();
+        if (GameManager.Instance != null)
+        {
+            LoadGame();
+        }
     }
     void Start()
     {
@@ -55,7 +58,10 @@ public class SaveManager : MonoBehaviour
    
     private void OnApplicationQuit()
     {
-        SaveGame();
+        if (GameManager.Instance != null)
+        {
+            SaveGame();
+        }
     }
 
     public void NewGame()
@@ -106,7 +112,7 @@ public class SaveManager : MonoBehaviour
 
         saveManagers = FindAllSaveManagers();
         data = fileDataHandler.LoadData();
-       // Debug.Log(data);
+       
         if (data == null)
         {
             NewGame();

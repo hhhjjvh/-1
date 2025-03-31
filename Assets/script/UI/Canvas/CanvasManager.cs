@@ -1,18 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 
 public class CanvasManager : MonoBehaviour
 {
+    public static CanvasManager Instance;
     private void Awake()
     {
-      //  UIManager.Instance.OpenPanel(UIConst.PlayerInfo);
-    }
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
 
+
+
+    }
     void Update()
     {
-        OpenUI();
+        if (GameManager.Instance != null)
+        {
+            OpenUI();
+        }
     }
 
     /// <summary>
@@ -40,5 +55,13 @@ public class CanvasManager : MonoBehaviour
                 UIManager.Instance.OpenPanel(UIConst.Settings);
             }
         }
+    }
+    public void LoadSceneUI(AssetReference ScenceSo)
+    {
+        SaveManager.Instance.SaveGame();
+        var load = Addressables.LoadSceneAsync(ScenceSo);
+        // ∆Ù”√º”‘ÿUI
+        LoadSceneUI loadUI = UIManager.Instance.OpenPanel(UIConst.LoadScene) as LoadSceneUI;
+        loadUI.LoadLevels(load);
     }
 }

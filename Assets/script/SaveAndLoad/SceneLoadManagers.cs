@@ -28,8 +28,8 @@ public class SceneLoadManagers : MonoBehaviour, ISaveManager
         if (Instance == null)
         {
             Instance = this;
-            transform.SetParent(null);
-            DontDestroyOnLoad(gameObject);
+           // transform.SetParent(null);
+           // DontDestroyOnLoad(gameObject);
         }
         else
         {

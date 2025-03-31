@@ -18,5 +18,5 @@ MonoBehaviour:
     m_SubObjectType: 
     m_EditorAssetChanged: 0
   gameScenceType: 1
-  sceneBGM: 0
+  sceneBGM: 1
   sceneName: 2

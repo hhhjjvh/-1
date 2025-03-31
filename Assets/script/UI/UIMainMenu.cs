@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.EventSystems;
@@ -19,13 +18,14 @@ public class UIMainMenu : MonoBehaviour
     [Header("Scene Settings")]
     // [SerializeField] private string sceneName;
     [SerializeField] private GameObject continueButton;
-  //  [SerializeField] private UIFadeScreen fadeScreen;
+    //  [SerializeField] private UIFadeScreen fadeScreen;
     public AssetReference currentSceneSO;
     [Header("UI Components")]
     [SerializeField] private GameObject saveSlotPrefab;  // 存档槽位预制体
     [SerializeField] private Transform saveSlotContainer; // 存档列表容器
     [SerializeField] private Button newGameButton;       // 全局新建游戏按钮
     [SerializeField] private Button ReturnButton;
+    [SerializeField] private Button SetButton;
     [SerializeField] private GameObject confirmDeletePanel; // 删除确认面板
     [SerializeField] private TMP_Text emptySlotHint;     // 空存档提示文本
     public int maxSaveSlots = 5; // 最大存档槽位数
@@ -35,7 +35,7 @@ public class UIMainMenu : MonoBehaviour
     [SerializeField] private TMP_Text overwriteConfirmText;
     private int _newGameSlotIndex = 1; // 默认使用第一个存档位
 
-   // public GameObject Saves;
+    // public GameObject Saves;
     public GameObject Loads;
 
 
@@ -46,7 +46,7 @@ public class UIMainMenu : MonoBehaviour
         Time.timeScale = 1;
         RefreshSaveSlots();
         confirmDeletePanel.SetActive(false);
-      //  Saves?.SetActive(false);
+        //  Saves?.SetActive(false);
         Loads.SetActive(false);
         // 替换原有EventSystem设置
         StartCoroutine(SetInitialFocus());
@@ -66,19 +66,24 @@ public class UIMainMenu : MonoBehaviour
         {
             ContinueGame();
         });
-       ReturnButton.GetComponent<Button>().onClick.AddListener(() => {
+        ReturnButton.GetComponent<Button>().onClick.AddListener(() =>
+        {
             Loads.SetActive(false);
             EnableMainMenuNavigation(this.gameObject);
-           StartCoroutine(SetPopupFocus(continueButton.GetComponent<Selectable>()));
-       });
+            StartCoroutine(SetPopupFocus(continueButton.GetComponent<Selectable>()));
+        });
 
+        if (CheckExistingSaves())
+        {
+            newGameButton.GetComponentInChildren<TMP_Text>().text = "清空存档";
+
+        }
+        SetButton.GetComponent<Button>().onClick.AddListener(() => { SettingsOpen(); });
     }
-    // 添加导航速度控制
-    private void Update()
+    public void SettingsOpen()
     {
-        
+        UIManager.Instance.OpenPanel(UIConst.Settings);
     }
-    
 
     // 修改现有的NewGame方法
     public void NewGame()
@@ -120,7 +125,7 @@ public class UIMainMenu : MonoBehaviour
             _firstSelected; // 若当前无选中项，回退到初始项
 
         overwriteConfirmPanel.SetActive(true);
-        overwriteConfirmText.text = "检测到已有存档，是否覆盖所有进度？";
+        overwriteConfirmText.text = "是否覆盖所有进度重新开始？";
 
         // 设置确认面板按钮
         Button btn_Yes = overwriteConfirmPanel.transform.Find("btn_ConfirmYes").GetComponent<Button>();
@@ -128,13 +133,15 @@ public class UIMainMenu : MonoBehaviour
         btn_Yes.GetComponentInChildren<TMP_Text>().text = "确定";
         btn_No.GetComponentInChildren<TMP_Text>().text = "取消";
         btn_Yes.onClick.RemoveAllListeners();
-        btn_Yes.onClick.AddListener(() => {
+        btn_Yes.onClick.AddListener(() =>
+        {
             ForceNewGame();
             overwriteConfirmPanel.SetActive(false);
         });
 
         btn_No.onClick.RemoveAllListeners();
-        btn_No.onClick.AddListener(() => {
+        btn_No.onClick.AddListener(() =>
+        {
             overwriteConfirmPanel.SetActive(false);
             // 新增：恢复主菜单导航
             EnableMainMenuNavigation(this.gameObject);
@@ -146,7 +153,7 @@ public class UIMainMenu : MonoBehaviour
         StartCoroutine(SetPopupFocus(btn_Yes.GetComponent<Selectable>()));
         EnableMainMenuNavigation(overwriteConfirmPanel);
     }
-   
+
     // 强制新建游戏方法
     private void ForceNewGame()
     {
@@ -179,7 +186,7 @@ public class UIMainMenu : MonoBehaviour
         {
             mode = Navigation.Mode.Explicit,
             selectOnDown = continueButton.GetComponent<Selectable>(),
-             selectOnUp = _firstSelected //GetComponentInChildren<Button>() // 根据实际布局调整
+            selectOnUp = _firstSelected //GetComponentInChildren<Button>() // 根据实际布局调整
         };
         newGameButton.navigation = newGameNav;
 
@@ -201,7 +208,7 @@ public class UIMainMenu : MonoBehaviour
 
             selectable.interactable = true;
         }
-       
+
     }
     // 刷新所有存档槽位UI
     public void RefreshSaveSlots()
@@ -235,7 +242,7 @@ public class UIMainMenu : MonoBehaviour
 
             // 设置UI元素
             slot.transform.Find("txt_SlotNumber").GetComponent<TMP_Text>().text = $"存档位 {slotIndex}";
-            slot.transform.Find("txt_SaveTime").GetComponent<TMP_Text>().text 
+            slot.transform.Find("txt_SaveTime").GetComponent<TMP_Text>().text
                 = $"保存时间: {saveTime}    游戏时间:{timeSpan.Hours:D2}:{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}";
             slot.transform.Find("txt_sceneName").GetComponent<TMP_Text>().text = $"场景名称: {sceneName}";
 
@@ -245,8 +252,8 @@ public class UIMainMenu : MonoBehaviour
 
             if (hasSave)
             {
-                btn_Load.GetComponentInChildren<TMP_Text>().text= $"加载";
-                btn_Delete.GetComponentInChildren<TMP_Text>().text= $"删除";
+                btn_Load.GetComponentInChildren<TMP_Text>().text = $"加载";
+                btn_Delete.GetComponentInChildren<TMP_Text>().text = $"删除";
                 btn_Load.onClick.AddListener(() => OnSlotSelected(slotIndex));
                 btn_Delete.onClick.AddListener(() => ShowDeleteConfirm(slotIndex));
                 hasAnySave = true;
@@ -255,7 +262,7 @@ public class UIMainMenu : MonoBehaviour
             {
                 btn_Load.GetComponentInChildren<TMP_Text>().text = "开始新游戏";
                 btn_Load.onClick.AddListener(() => CreateNewSave(slotIndex));
-                
+
                 btn_Delete.gameObject.SetActive(false);
                 // 调整“加载”按钮的右导航
                 var loadSelectable = btn_Load.GetComponent<Selectable>();
@@ -312,6 +319,7 @@ public class UIMainMenu : MonoBehaviour
     // 选中存档槽位
     private void OnSlotSelected(int slotIndex)
     {
+        Debug.Log($"Selected slot {slotIndex}");
         selectedSlotIndex = slotIndex;
         StartCoroutine(LoadSceneWithFadeEffect(0.5f));
     }
@@ -319,7 +327,7 @@ public class UIMainMenu : MonoBehaviour
     private void CreateNewSave(int slotIndex)
     {
         SaveManager.Instance.DeleteSavedData(slotIndex); // 确保干净状态
-       // SaveManager.instance.SaveGame(slotIndex);         // 初始保存
+                                                         // SaveManager.instance.SaveGame(slotIndex);         // 初始保存
         RefreshSaveSlots();
         OnSlotSelected(slotIndex);
     }
@@ -345,8 +353,8 @@ public class UIMainMenu : MonoBehaviour
         btn_Yes.onClick.AddListener(ConfirmDelete);
         btn_No.onClick.AddListener(CancelDelete);
 
-       // _lastSelectedBeforePopup = EventSystem.current.currentSelectedGameObject?.GetComponent<Selectable>();
-       
+        // _lastSelectedBeforePopup = EventSystem.current.currentSelectedGameObject?.GetComponent<Selectable>();
+
         // 设置确认面板导航
         var yesButton = confirmDeletePanel.transform.Find("btn_ConfirmYes").GetComponent<Selectable>();
         var noButton = confirmDeletePanel.transform.Find("btn_ConfirmNo").GetComponent<Selectable>();
@@ -371,14 +379,14 @@ public class UIMainMenu : MonoBehaviour
             // 新增：启用主菜单导航
             EnableMainMenuNavigation(Loads);
             // StartCoroutine(RestoreFocusAfterPopup());
-            StartCoroutine( SetPopupFocus(ReturnButton.GetComponent<Selectable>()));
+            StartCoroutine(SetPopupFocus(ReturnButton.GetComponent<Selectable>()));
         }
     }
 
     // 取消删除
     public void CancelDelete()
     {
-        
+
         confirmDeletePanel.SetActive(false);
         selectedSlotIndex = -1;
         // 新增：启用主菜单导航
@@ -388,27 +396,32 @@ public class UIMainMenu : MonoBehaviour
     IEnumerator RestoreFocusAfterPopup()
     {
         yield return null;
-      
+
         if (_lastSelectedBeforePopup != null)
         {
             EventSystem.current.SetSelectedGameObject(_lastSelectedBeforePopup.gameObject);
             _lastSelectedBeforePopup = null; // 新增置空操作
         }
     }
-   
+
     IEnumerator LoadSceneWithFadeEffect(float fadeTime)
     {
+        //Debug.Log("Loading Scene..." + currentSceneSO);
         //fadeScreen.gameObject.SetActive(true);
-       // fadeScreen.FadeOut();
-       // Debug.Log("Loading Scene..." + selectedSlotIndex);
+        // fadeScreen.FadeOut();
+        // Debug.Log("Loading Scene..." + selectedSlotIndex);
         // 传递存档槽位索引给游戏场景
-        PlayerPrefs.DeleteKey("SelectedSaveSlot");
+       // PlayerPrefs.DeleteKey("SelectedSaveSlot");
         PlayerPrefs.SetInt("SelectedSaveSlot", selectedSlotIndex);
         PlayerPrefs.Save();
-      
+        //Addressables.LoadSceneAsync(currentSceneSO);
+        var load = Addressables.LoadSceneAsync(currentSceneSO);
+        // 启用加载UI
+        LoadSceneUI loadUI = UIManager.Instance.OpenPanel(UIConst.LoadScene) as LoadSceneUI;
+        loadUI.LoadLevels(load);
         yield return new WaitForSeconds(fadeTime);
-       
-        Addressables.LoadSceneAsync(currentSceneSO);
+        Debug.Log("Loading Scene..." + currentSceneSO);
+        
         //currentSceneSO.LoadSceneAsync(LoadSceneMode.Additive, true);
     }
 
@@ -428,9 +441,9 @@ public class UIMainMenu : MonoBehaviour
         DisableMainMenuNavigation(this.gameObject);
         EnableMainMenuNavigation(Loads);
         StartCoroutine(SetPopupFocus(ReturnButton.GetComponent<Selectable>()));
-       // StartCoroutine(SetPopupFocus(yesButton));
+        // StartCoroutine(SetPopupFocus(yesButton));
         //SceneManager.LoadScene(sceneName);
         //StartCoroutine(LoadScenceWithFadeEffect(0.1f));
     }
-    
+
 }

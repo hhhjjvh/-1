@@ -23,7 +23,11 @@ public class PlayerGroundedState : PlayerActionState
     public override void Update()
     {
         base.Update();
-     
+        if (InputManager.Instance.canJump && player.IsGroundedDetected())
+        {
+            stateMachine.ChangeState(player.jumpState);
+            InputManager.Instance.canJump = false;
+        }
     }
 
 }

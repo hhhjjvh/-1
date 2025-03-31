@@ -19,15 +19,15 @@ public class GameData
     // 条件进度（Key格式：TaskID_ConditionGUID）
     public SerializableDictionary<string, int> conditionProgress = new();
    
-    public Dictionary<int, string> slotDict; // 物品槽所含物品
-    public Dictionary<string, int> itemsDict;  // 玩家背包数据
+    public SerializableDictionary<int, string> slotDict; // 物品槽所含物品
+    public SerializableDictionary<string, int> itemsDict;  // 玩家背包数据
 
     public SerializableDictionary<string, bool> checkPoints;
     public string closestCheckPoint;
 
     public SerializableDictionary<string, float> volumeSetting;
 
-  
+    public SerializableDictionary<string, ItemSaveInfo> slotInfo = new();
 
     public string scenceName;
 
@@ -42,9 +42,8 @@ public class GameData
         taskStatuses = new SerializableDictionary<string, TaskSO.TaskStatus>();
         conditionProgress = new SerializableDictionary<string, int>();
 
-        slotDict = new Dictionary<int, string>();
-        itemsDict = new Dictionary<string, int>();
-   
+        slotDict = new SerializableDictionary<int, string>();
+        itemsDict = new SerializableDictionary<string, int>();
         checkPoints = new SerializableDictionary<string, bool>();
         closestCheckPoint = string.Empty;
         volumeSetting = new SerializableDictionary<string, float>();
@@ -65,4 +64,12 @@ public class GameData
         //JsonUtility.FromJson<GameScenceSo>(scenceName);
        
     }
+   
+}
+[System.Serializable]
+public class ItemSaveInfo
+{
+    public string itemID;       // 物品唯一标识
+    public int stackSize;       // 堆叠数量
+    public ItemType itemType;   // 物品类型（用于区分 inventory/stash）
 }

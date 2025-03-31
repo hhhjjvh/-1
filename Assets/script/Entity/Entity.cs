@@ -13,6 +13,9 @@ public class Entity : MonoBehaviour
     public EntityFX entityFX { get; private set; }
     public SpriteRenderer spriteRenderer { get; private set; }
     public CapsuleCollider2D cd { get; private set; }
+    [SerializeField] protected LayerMask groundLayer;
+    [SerializeField] protected Transform groundCheck;
+    [SerializeField] protected float groundCheckDistance;
     protected virtual void Awake()
     {
         anim = GetComponentInChildren<Animator>();
@@ -23,7 +26,7 @@ public class Entity : MonoBehaviour
     }
     protected virtual void Start()
     {
-
+       
     }
     protected virtual void Update()
     {
@@ -58,4 +61,17 @@ public class Entity : MonoBehaviour
         }
 
     }
-}
+    public virtual bool IsGroundedDetected()
+    {
+        if (Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, groundLayer))
+        {
+            return true;
+        }
+
+        return false;
+    }
+    protected virtual void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
+    }
+    }

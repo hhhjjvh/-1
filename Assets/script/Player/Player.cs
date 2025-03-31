@@ -9,11 +9,14 @@ public class Player :Entity
     [Header("Move info")]
     public float moveSpeed=8;
     public float jumpForce;
+    public bool isJumped;
     public PlayerStateMachine stateMachine { get; private set; }
 
     public PlayerIdleState idleState { get; private set; }
     public PlayerMoveState moveState { get; private set; }
+    public PlayerJumpState jumpState { get; private set; }
     public PlayerRunState runState { get; private set; }
+
     protected override void Awake()
     {
         base.Awake();
@@ -21,6 +24,7 @@ public class Player :Entity
 
         idleState = new PlayerIdleState(stateMachine, this, "Idle");
         moveState = new PlayerMoveState(stateMachine, this, "Run");
+        jumpState= new PlayerJumpState(stateMachine, this, "Run");
         runState = new PlayerRunState(stateMachine, this, "Run");
     }
     protected override void Start()

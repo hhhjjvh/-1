@@ -31,12 +31,21 @@ public class GameManager : MonoBehaviour, ISaveManager
     public void RestartScence()
     {
        
-        Addressables.LoadSceneAsync(currentScenceSo);
+       // Addressables.LoadSceneAsync(currentScenceSo);
+        var load = Addressables.LoadSceneAsync(currentScenceSo);
+        // 启用加载UI
+        LoadSceneUI loadUI = UIManager.Instance.OpenPanel(UIConst.LoadScene) as LoadSceneUI;
+        loadUI.LoadLevels(load);
     }
 
     public void ExitGame()
     {
-        Addressables.LoadSceneAsync(firstScenceSo);
+      //  Addressables.LoadSceneAsync(firstScenceSo);
+        SaveManager.Instance.SaveGame();
+        var load = Addressables.LoadSceneAsync(firstScenceSo);
+        // 启用加载UI
+        LoadSceneUI loadUI = UIManager.Instance.OpenPanel(UIConst.LoadScene) as LoadSceneUI;
+        loadUI.LoadLevels(load);
     }
     public void LoadData(GameData data)
     {

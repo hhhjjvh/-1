@@ -35,7 +35,7 @@ public class InputManager : MonoBehaviour
     private bool lastUp, lastDown, lastLeft, lastRight;
     private string keyStatus = "°´¼ü×´Ì¬: ";
     public bool canInteract { get; set; }
-    
+    public bool canJump { get; set; }
     private void Awake()
     {
         if (Instance == null)
@@ -54,7 +54,9 @@ public class InputManager : MonoBehaviour
         LoadBindings();
         playerInput.Player.Interach.started += OnInteractStarted;
         playerInput.Player.Interach.canceled += OnInteractCanceled;
-        
+        playerInput.Player.Jump.started += OnJumpStarted;
+        playerInput.Player.Jump.canceled += OnJumpCanceled;
+
     }
 
   
@@ -63,9 +65,13 @@ public class InputManager : MonoBehaviour
         playerInput.Disable();
      playerInput.Player.Interach.started -= OnInteractStarted;
      playerInput.Player.Interach.canceled -= OnInteractCanceled;
+        playerInput.Player.Jump.started -= OnJumpStarted;
+        playerInput.Player.Jump.canceled -= OnJumpCanceled;
     }
     private void OnInteractStarted(InputAction.CallbackContext context) => canInteract = true;
     private void OnInteractCanceled(InputAction.CallbackContext context) => canInteract = false;
+    private void OnJumpStarted(InputAction.CallbackContext context) => canJump = true;
+    private void OnJumpCanceled(InputAction.CallbackContext context) => canJump = false;
     public void RestInput()
     {     
         LoadBindings();     

@@ -1,8 +1,8 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.Pool;
-using UnityEngine.UI;
-    using System.Collections;
+
+
+
 
 public class ItemObject : MonoBehaviour
 {
@@ -17,19 +17,25 @@ public class ItemObject : MonoBehaviour
 
     public TextMeshProUGUI text;
     public GameObject Name;
-    //[SerializeField] private Vector2 velocity;
-
+   
     private void OnValidate()
     {
         SetupVisuals();
 
     }
-
+    void OnEnable()
+    {
+     
+    }
+    void OnDisable()
+    {
+       // shopRoom = null;
+    }
     private void SetupVisuals()
     {
         if (itemData == null) return;
         GetComponent<SpriteRenderer>().sprite = itemData.icon;
-        gameObject.name = "Item :" + itemData.itemName;
+       // gameObject.name = "Item :" + itemData.itemName;
         text.text = itemData.itemName;
     }
 
@@ -37,38 +43,39 @@ public class ItemObject : MonoBehaviour
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (IsGroundedDetected())
-        {
-            rb.velocity = new Vector2(0, rb.velocity.y);
-        }
+        //spriteRenderer = GetComponent<SpriteRenderer>();
+        //spriteRenderer.sprite = itemData.itemIcon;
+        //rb.velocity = new Vector2(0, 7);
 
     }
 
+  
     public void PickupItem()
     {
+
         bool canPicked = Inventory.Instance.AddItem(itemData, 1);
         if (canPicked)
-        {
+        { // 可被拾取时启动销毁协程
             TipsBoxManager.Instance.ShowTipsBox("拾取物品：" + itemData.itemName, 1f);
-            PoolMgr.Instance.Release(gameObject);
-            AudioMgr.Instance.PlaySFX("3455_get1");
+
         }
+        PoolMgr.Instance.Release(gameObject);
+        
+        AudioMgr.Instance.PlaySFX("3455_get1");
+  
     }
     public void SetUpItem(ItemData itemData, Vector2 velocity)
     {
         this.itemData = itemData;
         rb.velocity = velocity;
         text.text = itemData.itemName;
-        Name.gameObject.SetActive(false);
-        Name = transform.Find("Name")?.gameObject;
-        SetupVisuals();
+      
+            Name.gameObject.SetActive(false);
+            Name = transform.Find("Name")?.gameObject;
+        
+            SetupVisuals();
     }
-   
     public virtual bool IsGroundedDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistance, groundLayer);
 }

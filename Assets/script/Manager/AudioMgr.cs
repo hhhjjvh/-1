@@ -61,6 +61,7 @@ public class AudioMgr : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             InitializeAudioSources();
             InitializeSFXPool();
+            LoadVolumeSettings();
         }
         else
         {
@@ -84,7 +85,7 @@ public class AudioMgr : MonoBehaviour
 
     private void InitializeSFXPool()
     {
-        var sfxGroup = _audioMixer.FindMatchingGroups("SFX")[0];
+        var sfxGroup = _audioMixer.FindMatchingGroups(_sfxVolumeParam)[0];
 
         for (int i = 0; i < _initialSFXPoolSize; i++)
         {
@@ -121,26 +122,31 @@ public class AudioMgr : MonoBehaviour
     public void SetMusicVolume(float volume)
     {
         SetMixerVolume(_musicVolumeParam, volume);
-        PlayerPrefs.SetFloat(_musicVolumeParam, volume);
+       // PlayerPrefs.SetFloat(_musicVolumeParam, volume);
+        //Debug.Log("Music Volume Set to " + volume);
     }
 
     public void SetSFXVolume(float volume)
     {
         SetMixerVolume(_sfxVolumeParam, volume);
-        PlayerPrefs.SetFloat(_sfxVolumeParam, volume);
+        //PlayerPrefs.SetFloat(_sfxVolumeParam, volume);
+       // Debug.Log("SFX Volume Set to " + volume);
     }
 
     private void SetMixerVolume(string parameter, float volume)
     {
-        float dB = volume > 0 ? 20 * Mathf.Log10(volume) : -80;
+        float dB = volume; //> 0 ? 20 * Mathf.Log10(volume) : -80;
         _audioMixer.SetFloat(parameter, dB);
     }
 
     private void LoadVolumeSettings()
     {
+        Debug.Log("Loading Volume Settings");
         SetMasterVolume(PlayerPrefs.GetFloat(_masterVolumeParam, 1));
-        SetMusicVolume(PlayerPrefs.GetFloat(_musicVolumeParam, 1));
-        SetSFXVolume(PlayerPrefs.GetFloat(_sfxVolumeParam, 1));
+        float S = PlayerPrefs.GetFloat("SFX");
+       float B = PlayerPrefs.GetFloat("BGM");
+        SetSFXVolume(S);
+        SetMusicVolume(B);
     }
 
     // ===========================================
@@ -285,7 +291,7 @@ public class AudioMgr : MonoBehaviour
         }
 
         // 没有可用通道时创建新通道
-        var sfxGroup = _audioMixer.FindMatchingGroups("SFX")[0];
+        var sfxGroup = _audioMixer.FindMatchingGroups(_sfxVolumeParam)[0];
         CreateNewSFXChannel(sfxGroup);
         return _availableChannels.Dequeue();
     }

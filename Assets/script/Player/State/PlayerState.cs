@@ -45,7 +45,7 @@ public class PlayerState
       
         //yInput = Input.GetAxisRaw("Vertical");
         yInput = InputManager.Instance.moveInput.y;
-        player.anim.SetFloat("yVelocity", rb.velocity.y);
+       // player.anim.SetFloat("yVelocity", rb.velocity.y);
         //player.entityFX.CreatAfterImage();
         
     }

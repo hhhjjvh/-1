@@ -42,6 +42,16 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 84d1926265e56c94aae2bc8cc9b6fafe
+    m_Address: Assets/Scenes/FristScence.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bfc16e271044ffd4b99d7286986dd084
+    m_Address: Assets/Games/MGP_004CompoundBigWatermelon/Scenes/MGP_004CompoundBigWatermelon.unity
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 447d9282c139b5e428703ccccb11d074, type: 2}
   m_SchemaSet:

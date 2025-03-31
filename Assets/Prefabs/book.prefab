@@ -232,6 +232,10 @@ PrefabInstance:
       propertyPath: m_text
       value: "\u65E5\u8BB0\n\n"
       objectReference: {fileID: 0}
+    - target: {fileID: 5530224062114607941, guid: deab57ff416b0384286764d397b6e668, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7100711511826797778, guid: deab57ff416b0384286764d397b6e668, type: 3}
       propertyPath: m_Name
       value: Name

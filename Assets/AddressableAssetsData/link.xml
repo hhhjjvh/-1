@@ -11,11 +11,14 @@
     <type fullname="GameManager" preserve="all" />
     <type fullname="GameSceneSO" preserve="all" />
     <type fullname="GoToNewScence" preserve="all" />
+    <type fullname="GotoNewSceneWithClick" preserve="all" />
     <type fullname="InputManager" preserve="all" />
     <type fullname="InteractCG" preserve="all" />
     <type fullname="Inventory" preserve="all" />
     <type fullname="ItemData" preserve="all" />
-    <type fullname="ItemDrag" preserve="all" />
+    <type fullname="ItemObject" preserve="all" />
+    <type fullname="ItemObjectTrigger" preserve="all" />
+    <type fullname="MGP_004CompoundBigWatermelon.GameStart" preserve="all" />
     <type fullname="Player" preserve="all" />
     <type fullname="PlayerManager" preserve="all" />
     <type fullname="PoolMgr" preserve="all" />
@@ -24,11 +27,11 @@
     <type fullname="SceneLoadManager" preserve="all" />
     <type fullname="SceneLoadManagers" preserve="all" />
     <type fullname="Sign" preserve="all" />
-    <type fullname="SlotController" preserve="all" />
     <type fullname="TeleporPoint" preserve="all" />
     <type fullname="TimeManager" preserve="all" />
     <type fullname="TipsBoxManager" preserve="all" />
     <type fullname="UIFadeScreen" preserve="all" />
+    <type fullname="UIMainMenu" preserve="all" />
     <type fullname=".GameDateTime" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="Cinemachine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
@@ -88,6 +91,7 @@
     <type fullname="UnityEngine.Audio.AudioMixerGroup" preserve="all" />
     <type fullname="UnityEngine.AudioClip" preserve="all" />
     <type fullname="UnityEngine.AudioListener" preserve="all" />
+    <type fullname="UnityEngine.AudioSource" preserve="all" />
   </assembly>
   <assembly fullname="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="UnityEngine.Camera" preserve="all" />
@@ -103,10 +107,10 @@
     <type fullname="UnityEngine.SpriteRenderer" preserve="all" />
     <type fullname="UnityEngine.Texture2D" preserve="all" />
     <type fullname="UnityEngine.Transform" preserve="all" />
-    <type fullname="UnityEngine.Events.ArgumentCache" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.Events.PersistentCallGroup" preserve="nothing" serialized="true" />
-    <type fullname="UnityEngine.Events.PersistentListenerMode" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.RectOffset" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.Events.ArgumentCache" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.Events.PersistentListenerMode" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="UnityEngine.Physics2DModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="UnityEngine.BoxCollider2D" preserve="all" />
@@ -118,18 +122,22 @@
   </assembly>
   <assembly fullname="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="UnityEngine.EventSystems.EventSystem" preserve="all" />
+    <type fullname="UnityEngine.EventSystems.StandaloneInputModule" preserve="all" />
     <type fullname="UnityEngine.UI.Button" preserve="all" />
     <type fullname="UnityEngine.UI.CanvasScaler" preserve="all" />
+    <type fullname="UnityEngine.UI.ContentSizeFitter" preserve="all" />
     <type fullname="UnityEngine.UI.GraphicRaycaster" preserve="all" />
     <type fullname="UnityEngine.UI.GridLayoutGroup" preserve="all" />
     <type fullname="UnityEngine.UI.Image" preserve="all" />
-    <type fullname="UnityEngine.UI.LayoutElement" preserve="all" />
+    <type fullname="UnityEngine.UI.Text" preserve="all" />
+    <type fullname="UnityEngine.UI.VerticalLayoutGroup" preserve="all" />
+    <type fullname="UnityEngine.UI.MaskableGraphic/CullStateChangedEvent" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.UI.AnimationTriggers" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.UI.Button/ButtonClickedEvent" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.UI.ColorBlock" preserve="nothing" serialized="true" />
-    <type fullname="UnityEngine.UI.MaskableGraphic/CullStateChangedEvent" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.UI.Navigation" preserve="nothing" serialized="true" />
     <type fullname="UnityEngine.UI.SpriteState" preserve="nothing" serialized="true" />
+    <type fullname="UnityEngine.UI.FontData" preserve="nothing" serialized="true" />
   </assembly>
   <assembly fullname="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
     <type fullname="UnityEngine.Canvas" preserve="all" />

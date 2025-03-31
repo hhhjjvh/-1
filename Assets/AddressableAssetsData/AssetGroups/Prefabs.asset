@@ -22,16 +22,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 9c7f5523eb1f88d47aa65a338f524c3a
-    m_Address: slot
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bedca1394585d714aa60164afe7fe1a4
-    m_Address: item
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 447d9282c139b5e428703ccccb11d074, type: 2}
   m_SchemaSet:

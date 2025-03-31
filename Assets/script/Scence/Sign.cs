@@ -86,9 +86,10 @@ public class Sign : MonoBehaviour
   
     private void OnTriggerStay2D(Collider2D other)
     {
+        //Debug.Log("interacts");
         if (other.CompareTag("NPC"))
         {
-            
+           // Debug.Log("interact");
             if (other.GetComponent<IInteractable>()!= null)
             {
                 interactable = other.GetComponent<IInteractable>();

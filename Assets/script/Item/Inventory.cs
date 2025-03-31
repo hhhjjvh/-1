@@ -22,8 +22,8 @@ public class Inventory : MonoBehaviour, ISaveManager
             Destroy(Instance.gameObject);
         }
         Instance = this;
-      // slotDict = new Dictionary<int, string>();
-      //itemsDict = new Dictionary<string, int>();
+       slotDict = new Dictionary<int, string>();
+      itemsDict = new Dictionary<string, int>();
     }
     private void OnEnable()
     {
@@ -150,14 +150,41 @@ public class Inventory : MonoBehaviour, ISaveManager
 
     public void LoadData(GameData data)
     {
-        slotDict = data.slotDict;
-        itemsDict = data.itemsDict;
-        Debug.Log("背包数据加载成功");
+        // 清空当前数据
+        slotDict.Clear();
+        itemsDict.Clear();
+
+        // 从GameData加载数据
+        foreach (var entry in data.slotDict)
+        {
+            slotDict.Add(entry.Key, entry.Value);
+        }
+
+        foreach (var entry in data.itemsDict)
+        {
+            itemsDict.Add(entry.Key, entry.Value);
+        }
+
+        // 更新UI
+        ResetItem();
+        OnInventoryUpdated?.Invoke();
     }
 
     public void SaveData(ref GameData data)
     {
-       slotDict = data.slotDict;
-       itemsDict = data.itemsDict;
+        // 清空GameData的字典以写入新数据
+        data.slotDict.Clear();
+        data.itemsDict.Clear();
+
+        // 将当前数据复制到GameData
+        foreach (var entry in slotDict)
+        {
+            data.slotDict.Add(entry.Key, entry.Value);
+        }
+
+        foreach (var entry in itemsDict)
+        {
+            data.itemsDict.Add(entry.Key, entry.Value);
+        }
     }
 }

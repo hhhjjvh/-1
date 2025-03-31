@@ -6,6 +6,10 @@ using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 using System.Linq;
 
+using System;
+using Unity.IO.LowLevel.Unsafe;
+using Unity.VisualScripting;
+
 public class SceneLoadManager : MonoBehaviour, ISaveManager
 {
     public static SceneLoadManager Instance;
@@ -26,8 +30,8 @@ public class SceneLoadManager : MonoBehaviour, ISaveManager
         if (Instance == null)
         {
             Instance = this;
-            transform.SetParent(null); // 清除父对象
-            DontDestroyOnLoad(gameObject);
+            //transform.SetParent(null); // 清除父对象
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -100,7 +104,11 @@ public class SceneLoadManager : MonoBehaviour, ISaveManager
         yield return new WaitForSeconds(0.3f);
         // Debug.Log("Unload"+currentScenceSo);
         yield return currentSceneSo.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
-        AudioMgr.Instance.PlayMusic(currentSceneSo.sceneBGM.ToString());
+        if (currentSceneSo.sceneBGM.ToString() != "None")
+        {
+            AudioMgr.Instance.PlayMusic(currentSceneSo.sceneBGM.ToString());
+        }
+       
         //GameManager.instance.SetPlayerPosition();
         StartCoroutine(SetCameraBounds());
         yield return new WaitForSeconds(1.5f);
@@ -113,6 +121,7 @@ public class SceneLoadManager : MonoBehaviour, ISaveManager
        
         fadeScreen.FadeOut();
         yield return new WaitForSeconds(0.5f);
+
         fade.SetActive(true);
         if (currentSceneSo != null)
         {
@@ -136,15 +145,30 @@ public class SceneLoadManager : MonoBehaviour, ISaveManager
         }
 
         var load = _pendingSceneToLoad.SceneReference.LoadSceneAsync(LoadSceneMode.Additive, true);
+        // 启用加载UI
+        LoadSceneUI loadUI = UIManager.Instance.OpenPanel(UIConst.LoadScene) as LoadSceneUI;
+        if (loadUI != null)
+        {
+            loadUI.LoadLevels(load);
+        }
         load.Completed += OnLoadComplete;
     }
 
     private void OnLoadComplete(AsyncOperationHandle<SceneInstance> handle)
     {
+        // 仅处理非UI触发的激活（如自动加载）
+        if (handle.Status == AsyncOperationStatus.Succeeded &&
+            !handle.Result.Scene.isLoaded)
+        {
+            handle.Result.ActivateAsync();
+        }
         Debug.Log(_pendingSceneToLoad);
         currentSceneSo = _pendingSceneToLoad;
         PlayerManager.instance.player.transform.position = positionToLoad;
-        AudioMgr.Instance.PlayMusic(ScenceToLoad.sceneBGM.ToString());
+       
+        if (currentSceneSo.sceneBGM.ToString() != "None")
+            AudioMgr.Instance.PlayMusic(ScenceToLoad.sceneBGM.ToString());
+       
     }
 
     public void LoadData(GameData data)
